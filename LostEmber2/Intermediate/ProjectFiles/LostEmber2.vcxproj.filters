@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\LostEmber2.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\LostEmber2.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\LostEmber2Editor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\LostEmber2">
+      <UniqueIdentifier>{C053A5BB-F764-38E8-B0B6-815168C62193}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\LostEmber2\LostEmber2.Build.cs">
+      <Filter>Source\LostEmber2</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\LostEmber2\LostEmber2.cpp">
+      <Filter>Source\LostEmber2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LostEmber2\LostEmber2.h">
+      <Filter>Source\LostEmber2</Filter>
+    </ClCompile>
+    <Filter Include="Source\LostEmber2\Private">
+      <UniqueIdentifier>{F5962DC1-EE1E-3531-B99F-2A0C309A03D9}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\LostEmber2\Private\PuzzleGameMode.cpp">
+      <Filter>Source\LostEmber2\Private</Filter>
+    </ClCompile>
+    <Filter Include="Source\LostEmber2\Public">
+      <UniqueIdentifier>{060112D4-F595-3CBE-AA5B-BE0C94CA6C5D}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\LostEmber2\Public\PuzzleGameMode.h">
+      <Filter>Source\LostEmber2\Public</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
