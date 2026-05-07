@@ -27,6 +27,18 @@ AOrbCharacter::AOrbCharacter()
     InteractionTraceChannel = ECC_Visibility;
 }
 
+void AOrbCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+
+    // Force Unreal to use THIS camera
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (PC)
+    {
+        PC->SetViewTarget(this);
+    }
+}
+
 void AOrbCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -80,7 +92,7 @@ void AOrbCharacter::Interact()
     FCollisionQueryParams Params;
     Params.AddIgnoredActor(this);
 
-    // Debug line (optional)
+    // Debug line
     DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.f, 0, 2.f);
 
     if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, InteractionTraceChannel, Params))
