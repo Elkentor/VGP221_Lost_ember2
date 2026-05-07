@@ -1,7 +1,6 @@
 #include "PressurePlate.h"
 #include "Components/BoxComponent.h"
 #include "PushableLightCube.h"
-#include "LightNode.h"
 
 APressurePlate::APressurePlate()
 {
@@ -25,11 +24,9 @@ void APressurePlate::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor*
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
     bool bFromSweep, const FHitResult& SweepResult)
 {
+	// only react if it's a LightCube
     if (Cast<APushableLightCube>(OtherActor))
     {
-        if (LinkedLightNode)
-        {
-            LinkedLightNode->Interact(this);
-        }
+        UE_LOG(LogTemp, Warning, TEXT("PressurePlate triggered by LightCube!"));
     }
 }

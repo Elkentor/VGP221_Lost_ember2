@@ -5,6 +5,8 @@
 #include "OrbCharacter.generated.h"
 
 class IInteractable;
+class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS()
 class LOSTEMBER2_API AOrbCharacter : public ACharacter
@@ -15,6 +17,7 @@ public:
     AOrbCharacter();
 
 protected:
+
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     void MoveForward(float Value);
@@ -24,6 +27,14 @@ protected:
 
     void Interact();
 
+    // --- CAMERA ---
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+    USpringArmComponent* CameraBoom;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+    UCameraComponent* FollowCamera;
+
+    // --- INTERACTION ---
     UPROPERTY(EditAnywhere, Category = "Interaction")
     float InteractionRange;
 

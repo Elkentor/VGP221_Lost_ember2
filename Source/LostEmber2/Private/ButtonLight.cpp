@@ -18,3 +18,29 @@ void AButtonLight::Interact(AActor* Interactor)
         OwnerPuzzle->OnButtonPressed(ButtonIndex);
     }
 }
+
+void AButtonLight::SetState(EButtonState NewState)
+{
+    if (!DynMaterial)
+    {
+        DynMaterial = Mesh->CreateAndSetMaterialInstanceDynamic(0);
+    }
+
+    if (!DynMaterial) return;
+
+    switch (NewState)
+    {
+    case EButtonState::Off:
+        if (MatOff) DynMaterial->SetTextureParameterValue("BaseTexture", nullptr);
+        Mesh->SetMaterial(0, MatOff);
+        break;
+
+    case EButtonState::On:
+        Mesh->SetMaterial(0, MatOn);
+        break;
+
+    case EButtonState::Error:
+        Mesh->SetMaterial(0, MatError);
+        break;
+    }
+}

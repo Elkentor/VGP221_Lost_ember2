@@ -5,7 +5,7 @@
 #include "PressurePlate.generated.h"
 
 class UBoxComponent;
-class ALightNode;
+class APushableLightCube;
 
 UCLASS()
 class LOSTEMBER2_API APressurePlate : public AActor
@@ -20,9 +20,6 @@ protected:
 
     UPROPERTY(VisibleAnywhere)
     UBoxComponent* TriggerBox;
-
-    UPROPERTY(EditAnywhere, Category = "Puzzle")
-    ALightNode* LinkedLightNode;
 
     UFUNCTION()
     void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

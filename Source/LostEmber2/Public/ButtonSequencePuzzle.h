@@ -4,7 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "ButtonSequencePuzzle.generated.h"
 
-class ALightNode;
+class AButtonLight;
 
 UCLASS()
 class LOSTEMBER2_API AButtonSequencePuzzle : public AActor
@@ -21,12 +21,12 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Puzzle")
     TArray<int32> CorrectOrder;
 
-    UPROPERTY(VisibleAnywhere, Category = "Puzzle")
-    int32 CurrentIndex;
-
     UPROPERTY(EditAnywhere, Category = "Puzzle")
-    ALightNode* LinkedLightNode;
+    TArray<AButtonLight*> Buttons;
+
+    int32 CurrentIndex;
 
     void ResetSequence();
     void CompletePuzzle();
+    void FlashError();
 };
