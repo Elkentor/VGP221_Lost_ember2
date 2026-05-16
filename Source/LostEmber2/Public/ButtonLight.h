@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interactable.h"
+#include "GameInteractable.h"
 #include "ButtonLight.generated.h"
 
 class UStaticMeshComponent;
@@ -17,14 +17,14 @@ enum class EButtonState : uint8
 };
 
 UCLASS()
-class LOSTEMBER2_API AButtonLight : public AActor, public IInteractable
+class LOSTEMBER2_API AButtonLight : public AActor, public IGameInteractable
 {
     GENERATED_BODY()
 
 public:
     AButtonLight();
 
-    virtual void Interact(AActor* Interactor) override;
+    virtual void Interact_Implementation(AActor* Interactor) override;
 
     void SetState(EButtonState NewState);
 
@@ -34,7 +34,6 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Button")
     AButtonSequencePuzzle* OwnerPuzzle;
 
-	// Material references for different states
     UPROPERTY(EditAnywhere, Category = "Materials")
     UMaterialInterface* MatOff;
 

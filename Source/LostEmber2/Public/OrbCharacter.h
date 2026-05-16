@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Blueprint/UserWidget.h"
 #include "OrbCharacter.generated.h"
 
 class IInteractable;
@@ -41,4 +42,7 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Interaction")
     TEnumAsByte<ECollisionChannel> InteractionTraceChannel;
+
+    UPROPERTY(EditAnywhere, Category = "UI")
+    TSubclassOf<class UUserWidget> CrosshairClass;
 };

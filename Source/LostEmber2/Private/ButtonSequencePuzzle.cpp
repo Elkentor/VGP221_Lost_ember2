@@ -10,6 +10,10 @@ AButtonSequencePuzzle::AButtonSequencePuzzle()
 
 void AButtonSequencePuzzle::OnButtonPressed(int32 PressedIndex)
 {
+    // Block interaction if puzzle is completed
+    if (bPuzzleCompleted)
+        return;
+
     if (!CorrectOrder.IsValidIndex(CurrentIndex))
     {
         ResetSequence();
@@ -18,7 +22,7 @@ void AButtonSequencePuzzle::OnButtonPressed(int32 PressedIndex)
 
     if (CorrectOrder[CurrentIndex] == PressedIndex)
     {
-        // Mettre le bouton en vert
+        // Turn button green
         if (Buttons.IsValidIndex(PressedIndex))
         {
             Buttons[PressedIndex]->SetState(EButtonState::On);
@@ -39,21 +43,32 @@ void AButtonSequencePuzzle::OnButtonPressed(int32 PressedIndex)
 
 void AButtonSequencePuzzle::FlashError()
 {
+    if (bPuzzleCompleted)
+        return;
+
     for (AButtonLight* Btn : Buttons)
     {
         if (Btn)
             Btn->SetState(EButtonState::Error);
     }
 
-    // After 0.3 sec → reset
-    GetWorldTimerManager().SetTimerForNextTick([this]()
-        {
-            ResetSequence();
-        });
+    // Wait 1.0 sec before resetting
+    FTimerHandle ErrorTimer;
+    GetWorldTimerManager().SetTimer(
+        ErrorTimer,
+        this,
+        &AButtonSequencePuzzle::ResetSequence,
+        1.0f,
+        false
+    );
 }
 
 void AButtonSequencePuzzle::ResetSequence()
 {
+    //  Do not reset if puzzle is completed
+    if (bPuzzleCompleted)
+        return;
+
     CurrentIndex = 0;
 
     for (AButtonLight* Btn : Buttons)
@@ -65,5 +80,14 @@ void AButtonSequencePuzzle::ResetSequence()
 
 void AButtonSequencePuzzle::CompletePuzzle()
 {
-	// leave it as is for now, maybe add some effects later
+    bPuzzleCompleted = true;
+
+    // Keep all buttons green
+    for (AButtonLight* Btn : Buttons)
+    {
+        if (Btn)
+            Btn->SetState(EButtonState::On);
+    }
+
+    // add effects here later
 }

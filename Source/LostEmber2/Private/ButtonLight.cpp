@@ -9,9 +9,10 @@ AButtonLight::AButtonLight()
 
     ButtonIndex = 0;
     OwnerPuzzle = nullptr;
+    DynMaterial = nullptr;
 }
 
-void AButtonLight::Interact(AActor* Interactor)
+void AButtonLight::Interact_Implementation(AActor* Interactor)
 {
     if (OwnerPuzzle)
     {
@@ -31,7 +32,7 @@ void AButtonLight::SetState(EButtonState NewState)
     switch (NewState)
     {
     case EButtonState::Off:
-        if (MatOff) DynMaterial->SetTextureParameterValue("BaseTexture", nullptr);
+        if (MatOff) DynMaterial->SetTextureParameterValue("BaseTexture", NULL);
         Mesh->SetMaterial(0, MatOff);
         break;
 
@@ -41,6 +42,7 @@ void AButtonLight::SetState(EButtonState NewState)
 
     case EButtonState::Error:
         Mesh->SetMaterial(0, MatError);
+        UE_LOG(LogTemp, Warning, TEXT("ERROR STATE VISIBLE"));
         break;
     }
 }

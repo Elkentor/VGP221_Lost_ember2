@@ -18,6 +18,7 @@ public:
     void OnButtonPressed(int32 PressedIndex);
 
 protected:
+
     UPROPERTY(EditAnywhere, Category = "Puzzle")
     TArray<int32> CorrectOrder;
 
@@ -25,6 +26,10 @@ protected:
     TArray<AButtonLight*> Buttons;
 
     int32 CurrentIndex;
+
+    // Lock puzzle after success
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    bool bPuzzleCompleted = false;
 
     void ResetSequence();
     void CompletePuzzle();
