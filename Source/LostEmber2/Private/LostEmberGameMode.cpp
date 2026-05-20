@@ -35,6 +35,17 @@ void ALostEmberGameMode::BeginPlay()
             GameHUDInstance->AddToViewport();
         }
     }
+    APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+
+    if (PC)
+    {
+        PC->SetInputMode(FInputModeGameOnly());
+    }
+}
+
+void ALostEmberGameMode::StartPlay()
+{
+    Super::StartPlay();
 }
 
 void ALostEmberGameMode::Tick(float DeltaSeconds)

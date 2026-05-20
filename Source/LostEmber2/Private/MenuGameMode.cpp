@@ -1,31 +1,32 @@
 #include "MenuGameMode.h"
 #include "Blueprint/UserWidget.h"
+#include "MainMenuWidget.h"
 #include "Kismet/GameplayStatics.h"
 
-AMenuGameMode::AMenuGameMode()
-{
-    PrimaryActorTick.bCanEverTick = false;
-}
+//AMenuGameMode::AMenuGameMode()
+//{
+//    PrimaryActorTick.bCanEverTick = false;
+//}
 
 void AMenuGameMode::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (MenuWidgetClass)
+    if (MainMenuWidgetClass)
     {
-        MenuWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), MenuWidgetClass);
-
-        if (MenuWidgetInstance)
+        UMainMenuWidget* MenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
+		MenuWidget->AddToViewport();
+        /*if (MainMenuWidgetInstance)
         {
-            MenuWidgetInstance->AddToViewport();
-        }
+            MainMenuWidgetInstance->AddToViewport();
+        }*/
     }
 
 	// Desactivate player input and show mouse cursor
     APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
     if (PC)
     {
-        PC->SetShowMouseCursor(true);
+        PC->bShowMouseCursor = true;
         PC->SetInputMode(FInputModeUIOnly());
     }
 }

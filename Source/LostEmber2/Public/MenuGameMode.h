@@ -14,9 +14,7 @@ public:
 
     virtual void BeginPlay() override;
 
-protected:
-
     UPROPERTY(EditAnywhere, Category = "UI")
-    TSubclassOf<UUserWidget> MenuWidgetClass;
-    UUserWidget* MenuWidgetInstance;
+    TSubclassOf<class UMainMenuWidget> MainMenuWidgetClass;
+    /*UUserWidget* MenuWidgetInstance;*/
 };

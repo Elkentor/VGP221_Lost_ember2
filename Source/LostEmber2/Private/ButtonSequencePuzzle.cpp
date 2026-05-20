@@ -1,5 +1,7 @@
 ﻿#include "ButtonSequencePuzzle.h"
 #include "ButtonLight.h"
+#include "LostEmberGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 
 AButtonSequencePuzzle::AButtonSequencePuzzle()
@@ -80,6 +82,9 @@ void AButtonSequencePuzzle::ResetSequence()
 
 void AButtonSequencePuzzle::CompletePuzzle()
 {
+    if (bPuzzleCompleted)
+		return;
+
     bPuzzleCompleted = true;
 
     // Keep all buttons green
@@ -87,6 +92,13 @@ void AButtonSequencePuzzle::CompletePuzzle()
     {
         if (Btn)
             Btn->SetState(EButtonState::On);
+    }
+
+	// Notify GameMode
+    ALostEmberGameMode* GM = Cast<ALostEmberGameMode>(UGameplayStatics::GetGameMode(this));
+    if (GM)
+    {
+        GM->RegisterLightActivated();
     }
 
     // add effects here later

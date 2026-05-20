@@ -13,6 +13,7 @@ public:
     ALostEmberGameMode();
 
 	virtual void BeginPlay() override;
+	virtual void StartPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 	// Lights / Puzzles
