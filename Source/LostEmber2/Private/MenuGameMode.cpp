@@ -3,10 +3,10 @@
 #include "MainMenuWidget.h"
 #include "Kismet/GameplayStatics.h"
 
-//AMenuGameMode::AMenuGameMode()
-//{
-//    PrimaryActorTick.bCanEverTick = false;
-//}
+AMenuGameMode::AMenuGameMode()
+{
+    PrimaryActorTick.bCanEverTick = false;
+}
 
 void AMenuGameMode::BeginPlay()
 {
@@ -15,14 +15,12 @@ void AMenuGameMode::BeginPlay()
     if (MainMenuWidgetClass)
     {
         UMainMenuWidget* MenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), MainMenuWidgetClass);
-		MenuWidget->AddToViewport();
-        /*if (MainMenuWidgetInstance)
+        if (MenuWidget)
         {
-            MainMenuWidgetInstance->AddToViewport();
-        }*/
+            MenuWidget->AddToViewport();
+        }
     }
 
-	// Desactivate player input and show mouse cursor
     APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
     if (PC)
     {

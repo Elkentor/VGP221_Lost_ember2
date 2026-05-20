@@ -35,8 +35,20 @@ void ALostEmberGameMode::BeginPlay()
             GameHUDInstance->AddToViewport();
         }
     }
-    APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+    
+    for (int i = 1; i <= TotalRequiredLights; i++)
+    {
+        FString TagName = FString::Printf(TEXT("Door%d"), i);
+        TArray<AActor*> FoundDoors;
+        UGameplayStatics::GetAllActorsWithTag(GetWorld(), FName(*TagName), FoundDoors);
 
+        if (FoundDoors.Num() > 0)
+        {
+            DoorsToOpen.Add(FoundDoors[0]);
+        }
+    }
+    
+    APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
     if (PC)
     {
         PC->SetInputMode(FInputModeGameOnly());
@@ -83,7 +95,17 @@ void ALostEmberGameMode::RegisterLightActivated()
 
     ActivatedLightCount++;
 
-    // On peut checker ici aussi, au cas où
+	// Open doors in order, based on the number of activated lights
+    if (DoorsToOpen.IsValidIndex(ActivatedLightCount - 1))
+    {
+        AActor* Door = DoorsToOpen[ActivatedLightCount - 1];
+        if (Door)
+        {
+            Door->Destroy();
+        }
+    }
+
+	// Check win condition after activating a light
     if (ActivatedLightCount >= TotalRequiredLights)
     {
         HandleGameOver(true);

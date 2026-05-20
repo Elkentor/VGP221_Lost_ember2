@@ -16,5 +16,5 @@ public:
 
     UPROPERTY(EditAnywhere, Category = "UI")
     TSubclassOf<class UMainMenuWidget> MainMenuWidgetClass;
-    /*UUserWidget* MenuWidgetInstance;*/
+    UUserWidget* MenuWidgetInstance;
 };

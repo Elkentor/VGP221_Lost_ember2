@@ -45,6 +45,9 @@ public:
 
     UUserWidget* GameHUDInstance;
 
+    UPROPERTY(EditAnywhere, Category = "Doors")
+    TArray<AActor*> DoorsToOpen;
+
 protected:
 
     // Lights / Puzzles
