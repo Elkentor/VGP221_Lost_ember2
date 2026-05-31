@@ -38,7 +38,8 @@ protected:
 
     // --- INTERACTION ---
     UPROPERTY(EditAnywhere, Category = "Interaction")
-    float InteractionRange;
+	float InteractionRange = 1000.f;
+	float VisualRange = 5000.f;
 
     UPROPERTY(EditAnywhere, Category = "Interaction")
     TEnumAsByte<ECollisionChannel> InteractionTraceChannel;

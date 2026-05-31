@@ -1,5 +1,6 @@
 #include "LightPathCheckpoint.h"
 #include "Components/BillboardComponent.h"
+#include "LightPathManager.h"
 
 ALightPathCheckpoint::ALightPathCheckpoint()
 {
@@ -7,4 +8,13 @@ ALightPathCheckpoint::ALightPathCheckpoint()
     RootComponent = Billboard;
 
     CheckpointIndex = 0;
+    Manager = nullptr;
+}
+
+void ALightPathCheckpoint::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+    if (Manager)
+    {
+        Manager->NotifyCheckpointHit(this);
+    }
 }

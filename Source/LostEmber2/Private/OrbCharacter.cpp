@@ -23,7 +23,6 @@ AOrbCharacter::AOrbCharacter()
     FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
     FollowCamera->bUsePawnControlRotation = false;
 
-    InteractionRange = 500.f;
     InteractionTraceChannel = ECC_Visibility;
 }
 
@@ -115,7 +114,7 @@ void AOrbCharacter::Interact()
 	// Raycast from player to target point
     FVector PlayerStart = GetMesh()->GetComponentLocation();
     FVector Direction = (TargetPoint - PlayerStart).GetSafeNormal();
-    FVector PlayerEnd = PlayerStart + Direction * InteractionRange;
+    FVector PlayerEnd = PlayerStart + Direction * VisualRange;
 
     DrawDebugLine(GetWorld(), PlayerStart, PlayerEnd, FColor::Green, false, 1.f, 0, 2.f);
 

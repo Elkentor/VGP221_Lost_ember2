@@ -5,6 +5,7 @@
 #include "LightPathCheckpoint.generated.h"
 
 class UBillboardComponent;
+class ALightPathManager;
 
 UCLASS()
 class LOSTEMBER2_API ALightPathCheckpoint : public AActor
@@ -14,6 +15,11 @@ class LOSTEMBER2_API ALightPathCheckpoint : public AActor
 public:
     ALightPathCheckpoint();
 
+    virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
     int32 CheckpointIndex;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
+    ALightPathManager* Manager;
 };
