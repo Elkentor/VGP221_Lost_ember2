@@ -4,9 +4,6 @@
 #include "GameFramework/Actor.h"
 #include "LightPathManager.generated.h"
 
-class ALightPathCheckpoint;
-class ALightNode;
-
 UCLASS()
 class LOSTEMBER2_API ALightPathManager : public AActor
 {
@@ -15,17 +12,7 @@ class LOSTEMBER2_API ALightPathManager : public AActor
 public:
     ALightPathManager();
 
-    UPROPERTY(EditAnywhere, Category = "Puzzle")
-    TArray<ALightPathCheckpoint*> Checkpoints;
-
-    UPROPERTY(EditAnywhere, Category = "Puzzle")
-    ALightNode* LinkedLightNode;
-
-    UPROPERTY(VisibleAnywhere)
-    int32 CurrentIndex;
-
-    void NotifyCheckpointHit(ALightPathCheckpoint* HitCheckpoint);
-
-    void ResetPath();
+    // Appelé par le dernier checkpoint
+    UFUNCTION(BlueprintCallable)
     void CompletePath();
 };

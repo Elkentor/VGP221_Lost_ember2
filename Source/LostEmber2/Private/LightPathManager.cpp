@@ -1,45 +1,22 @@
-#include "LightPathManager.h"
-#include "LightPathCheckpoint.h"
-#include "LightNode.h"
+﻿#include "LightPathManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "LostEmberGameMode.h"
 
 ALightPathManager::ALightPathManager()
 {
     PrimaryActorTick.bCanEverTick = false;
-    CurrentIndex = 0;
-}
-
-void ALightPathManager::NotifyCheckpointHit(ALightPathCheckpoint* HitCheckpoint)
-{
-    if (!Checkpoints.IsValidIndex(CurrentIndex))
-    {
-        ResetPath();
-        return;
-    }
-
-    if (Checkpoints[CurrentIndex] == HitCheckpoint)
-    {
-        CurrentIndex++;
-
-        if (CurrentIndex >= Checkpoints.Num())
-        {
-            CompletePath();
-        }
-    }
-    else
-    {
-        ResetPath();
-    }
-}
-
-void ALightPathManager::ResetPath()
-{
-    CurrentIndex = 0;
 }
 
 void ALightPathManager::CompletePath()
 {
-    if (LinkedLightNode)
+    ALostEmberGameMode* GM = Cast<ALostEmberGameMode>(UGameplayStatics::GetGameMode(this));
+    if (GM)
     {
-        LinkedLightNode->Interact(this);
+        GM->RegisterLightActivated();
+        UE_LOG(LogTemp, Warning, TEXT("Puzzle complete: RegisterLightActivated() called."));
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("ERROR: GameMode is not LostEmberGameMode!"));
     }
 }

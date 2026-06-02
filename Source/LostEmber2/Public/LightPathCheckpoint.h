@@ -4,8 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "LightPathCheckpoint.generated.h"
 
-class UBillboardComponent;
 class ALightPathManager;
+class UBoxComponent;
 
 UCLASS()
 class LOSTEMBER2_API ALightPathCheckpoint : public AActor
@@ -15,10 +15,21 @@ class LOSTEMBER2_API ALightPathCheckpoint : public AActor
 public:
     ALightPathCheckpoint();
 
+protected:
     virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
+public:
+    // --- COLLISION ---
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Collision")
+    UBoxComponent* BoxComponent;
+
+    // --- TELEPORTATION ---
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
-    int32 CheckpointIndex;
+    FVector TeleportLocation;
+
+    // --- PUZZLE ---
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
+    bool bIsFinalCheckpoint;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
     ALightPathManager* Manager;
