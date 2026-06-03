@@ -1,6 +1,7 @@
 #include "LostEmberGameMode.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
 
 ALostEmberGameMode::ALostEmberGameMode()
 {
@@ -9,18 +10,21 @@ ALostEmberGameMode::ALostEmberGameMode()
     ActivatedLightCount = 0;
     TotalRequiredLights = 3;
 
-    MaxTime = 180.0f;      // 3 minutes
+    MaxTime = 180.0f; // 3 minutes
     CurrentTime = MaxTime;
 
     bIsGameOver = false;
     bIsWin = false;
+
+    GameHUDInstance = nullptr;
+    WinWidgetInstance = nullptr;
+    GameOverWidgetInstance = nullptr;
 }
 
 void ALostEmberGameMode::BeginPlay()
 {
     Super::BeginPlay();
 
-    // Reset
     ActivatedLightCount = 0;
     CurrentTime = MaxTime;
     bIsGameOver = false;
@@ -35,7 +39,8 @@ void ALostEmberGameMode::BeginPlay()
             GameHUDInstance->AddToViewport();
         }
     }
-    
+
+    // Find doors by tag
     for (int i = 1; i <= TotalRequiredLights; i++)
     {
         FString TagName = FString::Printf(TEXT("Door%d"), i);
@@ -47,11 +52,13 @@ void ALostEmberGameMode::BeginPlay()
             DoorsToOpen.Add(FoundDoors[0]);
         }
     }
-    
+
+    // Input mode
     APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
     if (PC)
     {
         PC->SetInputMode(FInputModeGameOnly());
+        PC->bShowMouseCursor = false;
     }
 }
 
@@ -65,23 +72,14 @@ void ALostEmberGameMode::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
 
     if (bIsGameOver)
-    {
         return;
-    }
 
-	// Timer
+    // Timer
     CurrentTime -= DeltaSeconds;
     if (CurrentTime <= 0.0f)
     {
         CurrentTime = 0.0f;
-		HandleGameOver(false); //Fail if time runs out
-        return;
-    }
-
-	// Win condition check 
-    if (ActivatedLightCount >= TotalRequiredLights)
-    {
-        HandleGameOver(true); // Victoire
+        HandleGameOver(false);
         return;
     }
 }
@@ -89,13 +87,11 @@ void ALostEmberGameMode::Tick(float DeltaSeconds)
 void ALostEmberGameMode::RegisterLightActivated()
 {
     if (bIsGameOver)
-    {
         return;
-    }
 
     ActivatedLightCount++;
 
-	// Open doors in order, based on the number of activated lights
+    // Open door in order
     if (DoorsToOpen.IsValidIndex(ActivatedLightCount - 1))
     {
         AActor* Door = DoorsToOpen[ActivatedLightCount - 1];
@@ -104,26 +100,43 @@ void ALostEmberGameMode::RegisterLightActivated()
             Door->Destroy();
         }
     }
-
-	// Check win condition after activating a light
-    if (ActivatedLightCount >= TotalRequiredLights)
-    {
-        HandleGameOver(true);
-    }
 }
 
 void ALostEmberGameMode::HandleGameOver(bool bPlayerWon)
 {
     if (bIsGameOver)
-    {
-        return; // déjà traité
-    }
+        return;
 
     bIsGameOver = true;
     bIsWin = bPlayerWon;
 
-    // Pour l'instant : on ne change pas encore de niveau.
-    // On va brancher ici plus tard le Game Over Screen / Menu.
-    // Exemple plus tard :
-    // UGameplayStatics::OpenLevel(this, "GameOverLevel");
+    APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+    if (PC)
+    {
+        PC->SetInputMode(FInputModeUIOnly());
+        PC->bShowMouseCursor = true;
+    }
+
+    if (bPlayerWon)
+    {
+        if (WinWidgetClass)
+        {
+            WinWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), WinWidgetClass);
+            if (WinWidgetInstance)
+            {
+                WinWidgetInstance->AddToViewport();
+            }
+        }
+    }
+    else
+    {
+        if (GameOverWidgetClass)
+        {
+            GameOverWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), GameOverWidgetClass);
+            if (GameOverWidgetInstance)
+            {
+                GameOverWidgetInstance->AddToViewport();
+            }
+        }
+    }
 }
